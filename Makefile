@@ -1,3 +1,5 @@
+# A test
+#
 #### VARIABLES
 # TESTFLAGS: flags for test
 # KUBECTLFLAGS: flags for kubectl
