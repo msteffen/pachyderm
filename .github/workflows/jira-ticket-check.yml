@@ -1,0 +1,27 @@
+name: "Jira Ticket Check"
+run-name: "Check PR #${{ github.event.pull_request.number }} for a Jira link"
+on: pull_request
+jobs:
+  jira-ticket-check:
+    if: >-
+      github.event.pull_request.user.login == 'msteffen' &&
+      github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Check for Jira ticket
+        run: |
+          set -ex
+          echo "title:" "${{ github.event.pull_request.title }}"
+          echo "body:" "${{ github.event.pull_request.body }}"
+          pwd
+          ls
+          set -ex
+          go run ./etc/jira-ticket-check "${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}"
